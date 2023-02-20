@@ -23,19 +23,31 @@ module.exports = {
     "import/no-cycle": 1,
     // naming export can be beneficial for debugging, readability etc.
     "import/prefer-default-export": 0,
-	// mirror the airbnb config removing for..in and for..of
-	// as they are reasonable in node or modern browsers
-	'no-restricted-syntax': [
-		'error',
-		{
-		  selector: 'LabeledStatement',
-		  message: 'Labels are a form of GOTO; using them makes code confusing and hard to maintain and understand.',
-		},
-		{
-		  selector: 'WithStatement',
-		  message: '`with` is disallowed in strict mode because it makes code impossible to predict and optimize.',
-		},
-	  ],
+    // mirror the airbnb config, but remove for..in and for..of
+    // as they are reasonable in node or modern browsers
+    "no-restricted-syntax": [
+      "error",
+      {
+        selector: "LabeledStatement",
+        message:
+          "Labels are a form of GOTO; using them makes code confusing and hard to maintain and understand.",
+      },
+      {
+        selector: "WithStatement",
+        message:
+          "`with` is disallowed in strict mode because it makes code impossible to predict and optimize.",
+      },
+    ],
+    // mirror the airbnb config, but allow some exceptions
+    "no-underscore-dangle": [
+      "error",
+      {
+        allow: ["_id"],
+        allowAfterThis: false,
+        allowAfterSuper: false,
+        enforceInMethodNames: true,
+      },
+    ],
 
     /* React-specific rules */
     "react/react-in-jsx-scope": 0,

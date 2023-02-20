@@ -12,7 +12,6 @@ module.exports = {
     "plugin:@typescript-eslint/recommended",
   ],
   rules: {
-    /* Mirror JavaScript configuration */
     "max-len": [
       "error",
       {

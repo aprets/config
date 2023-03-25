@@ -121,20 +121,8 @@ module.exports = {
     /* TypeScript-specific rules */
     // Allow most functions to rely on type inference. If the function is exported, then `@typescript-eslint/explicit-module-boundary-types` will ensure it's typed.
     '@typescript-eslint/explicit-function-return-type': 'off',
-    '@typescript-eslint/member-delimiter-style': [
-      'error',
-      {
-        multiline: {
-          delimiter: 'comma',
-          requireLast: true,
-        },
-      },
-    ],
     // !consider uncommenting those in the future
     // '@typescript-eslint/explicit-module-boundary-types': 'off',
-
-    /* Prettier compatibility rules */
-    'implicit-arrow-linebreak': 'off',
   },
   overrides: [
     {

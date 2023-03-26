@@ -61,6 +61,7 @@ module.exports = {
     'unicorn/prevent-abbreviations': 'off',
     // prevent const x = function() {}
     'func-style': ['error', 'declaration', { allowArrowFunctions: true }],
+    // TODO: Prevent function shorthand in object literals?
     // mirror the airbnb config, but remove for..in and for..of
     // as they are reasonable in node or modern browsers
     'no-restricted-syntax': [
@@ -169,7 +170,7 @@ module.exports = {
       },
     },
     {
-      files: ['**/*.{test}.*'],
+      files: ['**/*.test.*'],
       rules: {
         'react/jsx-props-no-spreading': 'off',
         '@typescript-eslint/no-unsafe-return': 'off',
@@ -177,7 +178,7 @@ module.exports = {
       },
     },
     {
-      files: ['**/*.{stories}.*'],
+      files: ['**/*.stories.*'],
       rules: {
         'react/jsx-props-no-spreading': 'off',
       },

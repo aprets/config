@@ -5,7 +5,6 @@ module.exports = {
     node: true,
     jest: true,
   },
-  plugins: ['import', 'react', 'jsx-a11y', '@typescript-eslint', 'prettier'],
   extends: [
     'airbnb',
     'airbnb/hooks',
@@ -18,11 +17,14 @@ module.exports = {
     'plugin:unicorn/recommended',
     'prettier',
   ],
+  plugins: ['import', 'react', 'jsx-a11y', '@typescript-eslint', 'prettier'],
   rules: {
     // Run prettier as an ESLint rule and report differences as individual ESLint issues.
     'prettier/prettier': 'error',
 
     /* General rules */
+    // Our APIs already use null and there can be good reasons to use it
+    'unicorn/no-null': 'off',
     // Too restrictive, writing ugly code to defend against a very unlikely scenario: https://eslint.org/docs/rules/no-prototype-builtins
     'no-prototype-builtins': 'off',
     // https://basarat.gitbook.io/typescript/main-1/defaultisbad
@@ -108,7 +110,7 @@ module.exports = {
         html: 'enforce',
         custom: 'enforce',
         explicitSpread: 'ignore',
-        exceptions: ['FormCheckbox', 'FormInput', 'FormRadio', 'FormSelect', 'FormTextArea', 'FormToggle', 'TextField'],
+        exceptions: ['FormCheckbox', 'FormInput', 'FormRadio', 'FormSelect', 'FormTextArea', 'FormToggle', 'TextField', 'PasswordInput'],
       },
     ],
     // !consider uncommenting those in the future
@@ -140,7 +142,15 @@ module.exports = {
       },
     },
     {
-      files: ['**/*.{test,stories}.*'],
+      files: ['**/*.{test}.*'],
+      rules: {
+        'react/jsx-props-no-spreading': 'off',
+        '@typescript-eslint/no-unsafe-return': 'off',
+        '@typescript-eslint/require-await': 'off',
+      },
+    },
+    {
+      files: ['**/*.{stories}.*'],
       rules: {
         'react/jsx-props-no-spreading': 'off',
       },

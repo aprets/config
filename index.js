@@ -56,6 +56,13 @@ module.exports = {
     'no-prototype-builtins': 'off',
     // https://basarat.gitbook.io/typescript/main-1/defaultisbad
     'import/prefer-default-export': 'off',
+    // We rarely use this syntax, and often do not care about returning in a then() callback
+    // However if you use this please see http://pouchdb.com/2015/05/18/we-have-a-problem-with-promises.html (rule #5)
+    'promise/always-return': 'off',
+    // This is somewhat excessive, other rules should take care of the potential issues
+    'no-plusplus': 'off',
+    // Allow disabling eslint rules for the whole file
+    'eslint-comments/disable-enable-pair': ['error', { allowWholeFile: true }],
     'import/no-default-export': 'error',
     // Common abbreviations are known and readable
     'unicorn/prevent-abbreviations': 'off',
@@ -150,6 +157,8 @@ module.exports = {
         ],
       },
     ],
+    // this is too excessive with good use of typescript, we should not need default props
+    'react/require-default-props': 'off',
     // !consider uncommenting those in the future
     // can be excessive as react already kind of does it
     // 'react/no-danger': 'off',

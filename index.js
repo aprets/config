@@ -138,7 +138,16 @@ module.exports = {
         html: 'enforce',
         custom: 'enforce',
         explicitSpread: 'ignore',
-        exceptions: ['FormCheckbox', 'FormInput', 'FormRadio', 'FormSelect', 'FormTextArea', 'FormToggle', 'TextField', 'PasswordInput'],
+        exceptions: [
+          'FormCheckbox',
+          'FormInput',
+          'FormRadio',
+          'FormSelect',
+          'FormTextArea',
+          'FormToggle',
+          'TextField',
+          'PasswordInput',
+        ],
       },
     ],
     // !consider uncommenting those in the future

@@ -1,7 +1,6 @@
 {
   "name": "eslint-config-aprets",
-  "version": "0.1.7",
-  "main": "index.js",
+  "version": "0.2.2",
   "license": "Unlicense",
   "peerDependencies": {
     "eslint": "^8.36.0",

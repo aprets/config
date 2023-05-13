@@ -36,6 +36,19 @@ module.exports = ({ isReact } = { isReact: false }) => ({
     '@typescript-eslint',
     'prettier',
   ],
+  settings: {
+    // Mirror eslint-config-airbnb-typescript, but extend with "typescript" for eslint-import-resolver-typescript
+    'import/resolver': {
+      node: {
+        extensions: isReact
+          ? ['.mjs', '.js', '.jsx', '.json', '.ts', '.tsx', '.d.ts']
+          : ['.mjs', '.js', '.json', '.ts', '.d.ts'],
+      },
+      typescript: {
+        project: ['**/tsconfig.json', '**/tsconfig.*.json'],
+      },
+    },
+  },
   rules: {
     // Run prettier as an ESLint rule and report differences as individual ESLint issues.
     'prettier/prettier': 'error',
@@ -98,11 +111,37 @@ module.exports = ({ isReact } = { isReact: false }) => ({
         optionalDependencies: false,
       },
     ],
+    // prevent any nested ternary expressions
+    'no-nested-ternary': 'error',
     // Allow disabling eslint rules for the whole file
     'eslint-comments/disable-enable-pair': ['error', { allowWholeFile: true }],
-
+    // Enforce much stricter rules for import order
+    'import/order': [
+      'error',
+      {
+        groups: ['type', 'builtin', 'external', 'internal', 'parent', 'sibling'], // remaining 'index', 'object', 'unknown' will go after
+        'newlines-between': 'always',
+        warnOnUnassignedImports: true,
+        ...(isReact && {
+          pathGroups: [
+            {
+              pattern: 'react',
+              group: 'external',
+              position: 'before',
+            },
+          ],
+          pathGroupsExcludedImportTypes: ['builtin', 'object'],
+          distinctGroup: false,
+        }),
+      },
+    ],
+    // https://basarat.gitbook.io/typescript/main-1/defaultisbad
+    'import/no-default-export': 'error',
+    'import/prefer-default-export': 'off',
     // Our APIs already use null and there can be good reasons to use it
     'unicorn/no-null': 'off',
+    // It can be valid to lay out code in a certain way to make it more readable
+    '@typescript-eslint/no-use-before-define': 'off',
     // !arr.length is fairly common and more concise than arr.length === 0
     'unicorn/explicit-length-check': 'off',
     // Too restrictive, writing ugly code to defend against a very unlikely scenario: https://eslint.org/docs/rules/no-prototype-builtins
@@ -162,6 +201,17 @@ module.exports = ({ isReact } = { isReact: false }) => ({
           unnamedComponents: 'arrow-function',
         },
       ],
+      // Mirror airbnb config, but allow either way of associating labels with inputs
+      'jsx-a11y/label-has-associated-control': [
+        'error',
+        {
+          labelComponents: [],
+          labelAttributes: [],
+          controlComponents: [],
+          assert: 'either',
+          depth: 25,
+        },
+      ],
       // Not needed with React 17+
       'react/react-in-jsx-scope': 'off',
       // prop spreading can be useful if used within reason, the syntax is generally considered readable nowadays
@@ -186,13 +236,15 @@ module.exports = ({ isReact } = { isReact: false }) => ({
       },
     },
     {
-      files: ['**/*.test.*'],
+      files: ['**/*.test.*', '**/__tests__/**/*.*'],
       rules: {
-        // more lenient rules for tests
+        // more lenient rules for tests, tests crashing is not a significant issue
         '@typescript-eslint/no-unsafe-return': 'off',
         '@typescript-eslint/require-await': 'off',
         '@typescript-eslint/unbound-method': 'off',
         '@typescript-eslint/no-unsafe-assignment': 'off',
+        '@typescript-eslint/no-unsafe-member-access': 'off',
+        'unicorn/consistent-function-scoping': 'off',
       },
     },
     ...(isReact
@@ -209,6 +261,11 @@ module.exports = ({ isReact } = { isReact: false }) => ({
             rules: {
               // this rule does not work properly with storybook
               'react-hooks/rules-of-hooks': 'off',
+              // exports have different meaning in stories
+              'import/no-default-export': 'off',
+              // it is very common to "proxy" props in stories
+              // this results in much less boilerplate and more readable code
+              'react/destructuring-assignment': 'off',
             },
           },
         ]

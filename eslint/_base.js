@@ -20,8 +20,8 @@ module.exports = ({ isReact } = { isReact: false }) => ({
     }),
   },
   extends: [
-    ...(isReact ? ['airbnb', 'airbnb/hooks', 'airbnb-typescript'] : ['airbnb/base', 'airbnb-typescript/base']),
     'plugin:@typescript-eslint/recommended',
+    ...(isReact ? ['airbnb', 'airbnb/hooks', 'airbnb-typescript', 'plugin:react/jsx-runtime'] : ['airbnb/base', 'airbnb-typescript/base']),
     'plugin:@typescript-eslint/recommended-requiring-type-checking',
     'plugin:eslint-comments/recommended',
     'plugin:jest/recommended',
@@ -57,6 +57,8 @@ module.exports = ({ isReact } = { isReact: false }) => ({
     // prevent const x = function() {}
     'func-style': ['error', 'declaration', { allowArrowFunctions: true }],
     // TODO: Prevent function shorthand in object literals?
+    // Standardize on SomeType[] over Array<SomeType>
+    "@typescript-eslint/array-type": "error",
     // mirror the airbnb config, but remove for..in and for..of
     // as they are reasonable in node or modern browsers
     'no-restricted-syntax': [
@@ -137,6 +139,9 @@ module.exports = ({ isReact } = { isReact: false }) => ({
     ],
     // https://basarat.gitbook.io/typescript/main-1/defaultisbad
     'import/no-default-export': 'error',
+    // Downgrade to a warning from default config as this should not be blocking, di
+    'unicorn/expiring-todo-comments': ['warn', {ignoreDatesOnPullRequests: false, "allowWarningComments": false}],
+    // https://basarat.gitbook.io/typescript/main-1/defaultisbad
     'import/prefer-default-export': 'off',
     // Our APIs already use null and there can be good reasons to use it
     'unicorn/no-null': 'off',
@@ -212,8 +217,6 @@ module.exports = ({ isReact } = { isReact: false }) => ({
           depth: 25,
         },
       ],
-      // Not needed with React 17+
-      'react/react-in-jsx-scope': 'off',
       // prop spreading can be useful if used within reason, the syntax is generally considered readable nowadays
       'react/jsx-props-no-spreading': 'off',
       // this is too excessive with good use of typescript, we should not need default props
